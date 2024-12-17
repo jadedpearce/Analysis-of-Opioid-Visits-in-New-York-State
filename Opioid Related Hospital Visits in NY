@@ -1,1 +1,20 @@
+--Dataset: Opioid-Related Hospital Visits in NY from Kaggle
+--Source: https://www.kaggle.com/datasets/thedevastator/opioid-related-hospital-visits-in-ny
+--Credit & License: https://data.world/login?next=%2Fhealth & https://creativecommons.org/licenses/by/4.0/
+--Queried using: PostgreSQL in pgAdmin4
+
+#Identify the percentage of total opioid visits in the dataset from the total er visits by year and county 
+
+SELECT 
+	year,
+	patient_county_name AS county,
+	payer,
+	to_char(er_rate_per_1000,'990D99%') AS opioid_percentage
+FROM opioid_ds
+	WHERE to_char(er_rate_per_1000,'990D99%') IS NOT NULL
+		AND payer IN ('Medicare', 'Medicaid')
+	ORDER BY patient_county_name ASC;
+
+
+
 
