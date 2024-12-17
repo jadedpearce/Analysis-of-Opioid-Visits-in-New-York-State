@@ -5,6 +5,7 @@
 
 #Identify the percentage of total opioid visits in the dataset from the total er visits by year and county 
 
+CREATE TEMP TABLE county AS
 SELECT 
 	year,
 	patient_county_name AS county,
@@ -14,7 +15,6 @@ FROM opioid_ds
 	WHERE to_char(er_rate_per_1000,'990D99%') IS NOT NULL
 		AND payer IN ('Medicare', 'Medicaid')
 	ORDER BY patient_county_name ASC;
-
 
 
 
