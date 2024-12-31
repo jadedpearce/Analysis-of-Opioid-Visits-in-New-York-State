@@ -1,0 +1,95 @@
+#load data 
+student_life <- read.csv("student_lifestyle_dataset.csv")
+names(student_life)
+
+#making an object out of the column names 
+column_names<-names(student_life)
+library(dplyr)
+student_life$GPA
+
+#assign new object and create new object to only pull GPA 
+new_table <- student_life$GPA
+
+# Assuming student_life is your data frame (table) and GPA is the column name
+median_GPA <- median(student_life$GPA, na.rm = TRUE)
+median(student_life$GPA)
+mean(student_life$GPA)
+min(student_life$GPA)
+max(student_life$GPA)
+
+#Created an average sleep column for students
+average_sleep <- mean(student_life$Sleep_Hours_Per_Day)
+matrix(student_life$Sleep_Hours_Per_Day,student_life$GPA)
+
+#Create a scatter plot to visualize correlation between GPA and Sleep_Hours_Per_Day with regression line
+plot(student_life$Study_Hours_Per_Day, student_life$GPA,
+     xlab = "Study Hours per Day", ylab = "GPA",
+     main = "Correlation between Studying and GPA",
+     pch = 16, col = "blue")
+abline(lm(GPA~Study_Hours_Per_Day, data = student_life),col="red", lwd=2)
+
+#Create a scatter plot of Exercise per Day vs. GPA
+plot(student_life$Physical_Activity_Hours_Per_Day, student_life$GPA,
+    xlab = "Physical Hours Per Day", ylab = "GPA",
+    main = "Linear Regression: Exercise vs GPA",
+    pch = 16, col = "blue")
+#Fit a linear model (linear regression) to the data 
+lm_model <- lm(GPA ~ Physical_Activity_Hours_Per_Day, data = student_life)
+#Add the regression line to the plot
+abline(lm_model, col = "red", lwd =2)
+
+#Analyze stress data
+student_life$Stress_Level
+
+#Construct stress_matrix
+stress_matrix <- matrix(student_life$stress_level, nrow = 3, byrow = TRUE)
+
+#Create additional variable by converting GPA into quartiles 
+student_life$GPA_Quartile <- cut(student_life$GPA,
+                                breaks = quantile(student_life$GPA, probs = seq(0, 1, .25), na.rm = TRUE),
+                                                  include.lowest = T,
+                                                  labels = c("Fail", "Probation", "Pass", "Dean's List"))
+
+#Create crosstabs to determine the relationship between GPA and stress 
+cross_table <- table(student_life$GPA_Quartile, student_life$Stress_Level)
+
+print(cross_table)
+
+#Adding rows of the crosstabs
+rowSums(cross_table)
+
+#Adding columns ofs the crosstab
+colSums(cross_table)
+
+#First step in creating percentages by row
+round(prop.table(cross_table, margin = 1)*100,2)
+
+#Second step in creating percentages by column
+round(prop.table(cross_table, margin = 2)*100,2)
+
+#Command to download Gmodels 
+install.packages("gmodels")
+
+#Load the package
+library(gmodels)
+
+CrossTable(student_life$GPA_Quartile, student_life$Stress_Level, chisq = T)
+
+matrix(9:16, 
+       nrow = 2,
+       byrow = FALSE)
+
+#load data 
+student_life <- read.csv("student_lifestyle_dataset.csv")
+names(student_life)
+
+str(student_life)
+
+st_life_matrix <- matrix(student_life)
+
+#created a list of students that would be on the probation list
+Probation <- subset(student_life, GPA < 2.5)
+
+Probation
+#gives the number of records 
+nrow(Probation)
