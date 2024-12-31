@@ -1,0 +1,20 @@
+--Identify what percentage of unique individuals in the dataset are female and bi-racial within New York State.--
+CREATE TEMP TABLE female_count AS
+	SELECT SUM(female_estimate) AS female_count
+	FROM ny_county_demographics;
+
+CREATE TEMP TABLE total_population AS
+	SELECT SUM(estimate_race_total_population) AS total 
+	FROM ny_county_demographics; 
+
+CREATE TEMP TABLE bi_racial AS
+	SELECT SUM(estimate_two_or_more_races) AS bi_racial_count
+	FROM ny_county_demographics;
+
+CREATE TEMP TABLE multi_racial_female_table AS
+	SELECT ROUND((bi_racial.bi_racial_count*100/female_count.female_count)) AS multi_racial_female
+	FROM female_count, bi_racial; 
+
+SELECT 
+	ROUND((bi_racial.bi_racial_count*100.00/female_count.female_count)) AS multi_racial_female
+	FROM bi_racial,female_count;
