@@ -1,0 +1,17 @@
+--Identify the percentage of unique individuals in the dataset that have a GPA over 3.0 and exercises at least 1 hour a day--
+CREATE TEMP TABLE total_students AS --created a temp table for denominator: total number of students--
+SELECT 
+	COUNT(student_id) AS student_count
+FROM student_lifestyle_ds; 
+
+--develop the numerator 
+CREATE TEMP TABLE student_gpa_pa AS 
+SELECT COUNT(*) AS student_count
+	FROM student_lifestyle_ds
+	WHERE gpa > 3 
+	AND physical_activity_hours_per_day >= 1; 
+
+--FINAL query--
+SELECT 
+	ROUND((student_gpa_pa.student_count*100.00/total_students.student_count)) AS student_percentage
+FROM total_students, student_gpa_pa; 
