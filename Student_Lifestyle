@@ -1,3 +1,15 @@
+--Dataset: Student Life dataset from Kaggle
+--Source: https://www.kaggle.com/datasets/steve1215rogg/student-lifestyle-dataset
+--Credit & License: 
+	@misc{sumit_kumar_2024,
+	title={student lifestyle dataset},
+	url={https://www.kaggle.com/dsv/9876359},
+	DOI={10.34740/KAGGLE/DSV/9876359},
+	publisher={Kaggle},
+	author={Sumit Kumar},
+	year={2024}
+--Queried using: PostgreSQL in pgAdmin4
+
 --Identify the percentage of unique individuals in the dataset that have a GPA over 3.0 and exercises at least 1 hour a day--
 CREATE TEMP TABLE total_students AS --created a temp table for denominator: total number of students--
 SELECT 
