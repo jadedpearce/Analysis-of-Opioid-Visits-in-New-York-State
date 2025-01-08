@@ -28,29 +28,3 @@ SELECT
 	ROUND((student_gpa_pa.student_count*100.00/total_students.student_count)) AS student_percentage
 FROM total_students, student_gpa_pa; 
 
---this is another way to come to the same answer but in a subquery format
-SELECT 
-	ROUND((student_activity.student_count2*100.00/total_students.student_count)) AS student_percentage
-FROM (SELECT 
-		COUNT(student_id) AS student_count
-		FROM student_lifestyle_ds ) AS total_students
-
-WITH total_student AS
-	(SELECT 
-		COUNT(student_id) AS student_count
-	FROM student_lifestyle_ds),
-student_activity AS(
-	SELECT 
-		COUNT(*) AS student_count2
-	FROM student_lifestyle_ds
-	WHERE gpa > 3 
-	AND physical_activity_hours_per_day >= 1)
-SELECT 
-	ROUND((student_gpa_pa.student_count2*100.00/total_students.student_count)) AS student_percentage
-FROM total_students 
-CROSS JOIN student_gpa_pa;
-CROSS JOIN (SELECT 
-				COUNT(*) AS student_count2
-				FROM student_lifestyle_ds
-				WHERE gpa > 3 
-				AND physical_activity_hours_per_day >= 1) AS student_activity; 
