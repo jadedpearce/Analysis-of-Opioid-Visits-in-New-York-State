@@ -1,0 +1,17 @@
+
+
+
+--Rank weapon type from nominal to ordinal variables using a CASE function; export data and plot graph
+SELECT 
+	EXTRACT (YEAR FROM i.date) AS YEAR,
+    w.incidentid,
+    w.weaponcaliber,
+    w.weapontype,
+    CASE
+        WHEN w.weapontype IN ('Handgun','Multiple Handguns') THEN 1
+        WHEN w.weapontype IN ('Shotgun') THEN 2
+        WHEN w.weapontype IN ('Rifle', 'Multiple Rifles') THEN 3
+        WHEN w.weapontype = 'Unknown' OR weapontype = 'Multiple Unknown' OR weapontype IS NULL THEN 0
+        ELSE 4
+    END AS weapon_category
+FROM weapon_2 w
