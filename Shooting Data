@@ -1,4 +1,7 @@
-
+--Dataset: US School Shootings (1970-2022) from Kaggle
+--Source: https://www.kaggle.com/datasets/shilongzhuang/us-school-shootings-19702022
+--Credit & License: https://www.chds.us/sssc/ & https://www.chds.us/sssc/methods/
+--Queried using: PostgreSQL in pgAdmin4
 
 
 --Rank weapon type from nominal to ordinal variables using a CASE function; export data and plot graph
