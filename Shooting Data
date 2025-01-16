@@ -3,18 +3,45 @@
 --Credit & License: https://www.chds.us/sssc/ & https://www.chds.us/sssc/methods/
 --Queried using: PostgreSQL in pgAdmin4
 
+--CASE function and table joins
 
---Rank weapon type from nominal to ordinal variables using a CASE function; export data and plot graph
-SELECT 
+SELECT DISTINCT 
 	EXTRACT (YEAR FROM i.date) AS YEAR,
-    w.incidentid,
-    w.weaponcaliber,
-    w.weapontype,
-    CASE
+	i.date AS incident_date,
+	i.quarter AS incident_quarter,
+	i.city AS incident_city,
+	i.state AS incident_state,
+	i.school AS incident_school,
+	i.school_level AS incident_school_level,
+	i.location AS incident_location,
+	i.during_school AS incident_during_school,
+	i.time_period AS incident_time_period,
+	i.first_shot AS incident_first_shot,
+	s.age_category AS shooter_age_category,
+	s.race AS shooter_race,
+	s.schoolaffiliation AS schooter_school_afflilation,
+	CASE
+		WHEN s.criminalhistory = 'Unknown' THEN 0 
+		WHEN s.criminalhistory = 'No' THEN 1
+		ELSE 2
+		END AS criminal_history_category,
+	s.shooteroutcome AS shooter_outcome,
+	w.weapontype AS weapon_type,
+	CASE
         WHEN w.weapontype IN ('Handgun','Multiple Handguns') THEN 1
         WHEN w.weapontype IN ('Shotgun') THEN 2
         WHEN w.weapontype IN ('Rifle', 'Multiple Rifles') THEN 3
         WHEN w.weapontype = 'Unknown' OR weapontype = 'Multiple Unknown' OR weapontype IS NULL THEN 0
         ELSE 4
-    END AS weapon_category
-FROM weapon_2 w
+    END AS weapon_category,
+	w.weaponcaliber AS weapon_caliber,
+	v.injury AS victim_injury,
+	v.gender AS victim_gender,
+	v.race AS victim_race,
+	v.school_affiliation AS victim_school_affiliation,
+	v.age_category AS victim_age_category
+FROM incident i
+	LEFT JOIN weapon_2 w ON i.incident_id = w.incidentid
+	LEFT JOIN victim v ON i.incident_id = v.incidentid
+	LEFT JOIN shooter s ON i.incident_id = s.incidentid
+ORDER BY date;
