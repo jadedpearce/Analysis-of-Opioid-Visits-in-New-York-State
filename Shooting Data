@@ -28,12 +28,12 @@ SELECT DISTINCT
 	s.shooteroutcome AS shooter_outcome,
 	w.weapontype AS weapon_type,
 	CASE
-        WHEN w.weapontype IN ('Handgun','Multiple Handguns') THEN 1
-        WHEN w.weapontype IN ('Shotgun') THEN 2
-        WHEN w.weapontype IN ('Rifle', 'Multiple Rifles') THEN 3
-        WHEN w.weapontype = 'Unknown' OR weapontype = 'Multiple Unknown' OR weapontype IS NULL THEN 0
-        ELSE 4
-    END AS weapon_category,
+        	WHEN w.weapontype IN ('Handgun','Multiple Handguns') THEN 1
+        	WHEN w.weapontype IN ('Shotgun') THEN 2
+        	WHEN w.weapontype IN ('Rifle', 'Multiple Rifles') THEN 3
+        	WHEN w.weapontype = 'Unknown' OR weapontype = 'Multiple Unknown' OR weapontype IS NULL THEN 0
+        	ELSE 4
+    		END AS weapon_category,
 	w.weaponcaliber AS weapon_caliber,
 	v.injury AS victim_injury,
 	v.gender AS victim_gender,
