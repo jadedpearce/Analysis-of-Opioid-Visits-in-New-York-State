@@ -5,9 +5,9 @@
 
 --CASE function and table joins
 
-SELECT DISTINCT 
+SELECT 
 	i.incident_id,
-	EXTRACT (YEAR FROM i.date) AS year,
+	EXTRACT (YEAR FROM i.date) AS YEAR,
 	i.date AS incident_date,
 	i.quarter AS incident_quarter,
 	i.city AS incident_city,
@@ -27,6 +27,7 @@ SELECT DISTINCT
 		ELSE 2
 		END AS criminal_history_category,
 	s.shooteroutcome AS shooter_outcome,
+	w.weapon_id,
 	w.weapontype AS weapon_type,
 	CASE
         WHEN w.weapontype IN ('Handgun','Multiple Handguns') THEN 1
@@ -36,13 +37,24 @@ SELECT DISTINCT
         ELSE 4
     END AS weapon_category,
 	w.weaponcaliber AS weapon_caliber,
+	v.victim_id,
 	v.injury AS victim_injury,
 	v.gender AS victim_gender,
 	v.race AS victim_race,
 	v.school_affiliation AS victim_school_affiliation,
 	v.age_category AS victim_age_category
 FROM incident i
-	LEFT JOIN weapon_2 w ON i.incident_id = w.incidentid
-	LEFT JOIN victim v ON i.incident_id = v.incidentid
+	LEFT JOIN (SELECT
+			*,
+			row_number() OVER () AS weapon_id
+			FROM weapon_2) w ON i.incident_id = w.incidentid
+	LEFT JOIN (SELECT 
+			*,
+			row_number() OVER () AS victim_id
+			FROM victim) v ON i.incident_id = v.incidentid
 	LEFT JOIN shooter s ON i.incident_id = s.incidentid
-ORDER BY date;
+ORDER BY 
+	date, incident_id, victim_id, weapon_id;
+
+SELECT *
+FROM incident; 
